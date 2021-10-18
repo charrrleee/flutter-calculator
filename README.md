@@ -1,2 +1,1 @@
-# hybird-calculator
-Flutter Calculator 
+# Flutter Calculator 
