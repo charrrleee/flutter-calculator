@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // todo move to custom library
-abstract class BaseStatelessWidget extends StatelessWidget {}
+abstract class BaseStatelessWidget extends StatelessWidget {
+  const BaseStatelessWidget({Key? key}) : super(key: key);
+}
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {}
 
