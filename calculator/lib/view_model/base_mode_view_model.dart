@@ -1,7 +1,7 @@
 import 'package:calculator/lib/framework.dart';
 
 class BaseModeViewModel extends BaseViewModel {
-  String _result = "";
+  String _result = "test";
 
   String get result => _result;
 

@@ -46,28 +46,27 @@ class NumberPad extends StatelessWidget {
       Sign.division
     ];
     List<String> secondRow = [
-      Sign.clear,
-      Sign.posNeg,
-      Sign.percent,
-      Sign.division
+      Number.seven,
+      Number.eight,
+      Number.nine,
+      Sign.multiplication
     ];
     List<String> thirdRow = [
-      Sign.clear,
-      Sign.posNeg,
-      Sign.percent,
-      Sign.division
+      Number.four,
+      Number.five,
+      Number.six,
+      Sign.minus
     ];
     List<String> fourthRow = [
-      Sign.clear,
-      Sign.posNeg,
-      Sign.percent,
-      Sign.division
+      Number.one,
+      Number.two,
+      Number.three,
+      Sign.plus
     ];
     List<String> fifthRow = [
-      Sign.clear,
-      Sign.posNeg,
-      Sign.percent,
-      Sign.division
+      Number.zero,
+      Sign.dot,
+      Sign.equals,
     ];
 
     return Column(children: [
@@ -98,7 +97,7 @@ class NumberPad extends StatelessWidget {
       Row(
           children: fourthRow
               .map((label) => CustomElevatedButton(
-                    text: Sign.clear,
+                    text: label,
                     onPressed: () => vm.onClick(label),
                   ))
               .toList(),
@@ -106,7 +105,7 @@ class NumberPad extends StatelessWidget {
       Row(
           children: fifthRow
               .map((label) => CustomElevatedButton(
-                    text: Sign.clear,
+                    text: label,
                     onPressed: () => vm.onClick(label),
                   ))
               .toList(),
