@@ -13,6 +13,19 @@ class Number {
   static const String seven = "7";
   static const String eight = "8";
   static const String nine = "9";
+
+  static const List<String> list = [
+    zero,
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine
+  ];
 }
 
 class Sign {
@@ -27,4 +40,16 @@ class Sign {
   static const String posNeg = "+/-";
   static const String percent = "%";
   static const String equals = "=";
+
+  static const List<String> list = [
+    clear,
+    plus,
+    minus,
+    multiplication,
+    division,
+    dot,
+    posNeg,
+    percent,
+    equals
+  ];
 }

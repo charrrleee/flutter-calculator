@@ -11,7 +11,7 @@ class BaseModeState extends BaseMVVMState<BaseModeView, BaseModeViewModel> {
     return SafeArea(
         child: Column(
       children: [
-        Text(vm.result),
+        Text(vm.output),
         NumberPad(
           vm: vm,
         ),
@@ -39,39 +39,11 @@ class NumberPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> firstRow = [
-      Sign.clear,
-      Sign.posNeg,
-      Sign.percent,
-      Sign.division
-    ];
-    List<String> secondRow = [
-      Number.seven,
-      Number.eight,
-      Number.nine,
-      Sign.multiplication
-    ];
-    List<String> thirdRow = [
-      Number.four,
-      Number.five,
-      Number.six,
-      Sign.minus
-    ];
-    List<String> fourthRow = [
-      Number.one,
-      Number.two,
-      Number.three,
-      Sign.plus
-    ];
-    List<String> fifthRow = [
-      Number.zero,
-      Sign.dot,
-      Sign.equals,
-    ];
+
 
     return Column(children: [
       Row(
-          children: firstRow
+          children: vm.firstRow
               .map((label) => CustomElevatedButton(
                     text: label,
                     onPressed: () => vm.onClick(label),
@@ -79,7 +51,7 @@ class NumberPad extends StatelessWidget {
               .toList(),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly),
       Row(
-          children: secondRow
+          children: vm.secondRow
               .map((label) => CustomElevatedButton(
                     text: label,
                     onPressed: () => vm.onClick(label),
@@ -87,7 +59,7 @@ class NumberPad extends StatelessWidget {
               .toList(),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly),
       Row(
-          children: thirdRow
+          children: vm.thirdRow
               .map((label) => CustomElevatedButton(
                     text: label,
                     onPressed: () => vm.onClick(label),
@@ -95,7 +67,7 @@ class NumberPad extends StatelessWidget {
               .toList(),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly),
       Row(
-          children: fourthRow
+          children: vm.fourthRow
               .map((label) => CustomElevatedButton(
                     text: label,
                     onPressed: () => vm.onClick(label),
@@ -103,7 +75,7 @@ class NumberPad extends StatelessWidget {
               .toList(),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly),
       Row(
-          children: fifthRow
+          children: vm.fifthRow
               .map((label) => CustomElevatedButton(
                     text: label,
                     onPressed: () => vm.onClick(label),
