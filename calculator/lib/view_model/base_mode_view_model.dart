@@ -60,9 +60,46 @@ class BaseModeViewModel extends BaseViewModel {
 
   @override
   void onClick(String input) {
-    _output = "4";
-    if (_firstNumber.isEmpty && _sign.isEmpty) {
-      _output = "3";
+    if (input == Sign.dot && _output.contains(Sign.dot)) return;
+
+    if (Number.list.contains(input)) {
+      if (_firstNumber.isEmpty && _sign.isEmpty) {
+        _output += input;
+      } else if (_firstNumber.isNotEmpty && _sign.isNotEmpty) {
+        _output += input;
+      }
+    }
+    if (Sign.list.contains(input)) {
+      if (input == Sign.clear) {
+        clear();
+      } else if (input == Sign.dot) {
+        _output += Sign.dot;
+      } else if (input == Sign.percent) {
+        _output = (double.parse(_output) / 100).toString();
+      } else if (input == Sign.posNeg) {
+        _output = _output.contains("-") ? _output.substring(1) : "-$output";
+        if (_secondNumber.isNotEmpty) {
+          _secondNumber = _output;
+        } else {
+          _firstNumber = _output;
+        }
+      } else {
+        if (_sign.isNotEmpty) {
+          if ([Sign.division, Sign.multiplication, Sign.plus, Sign.minus]
+              .contains(input)) {
+            calculation();
+          } else if (Sign.equals == input) {
+            if (_sign.isEmpty) return;
+            calculation();
+          }
+          String temp = _output;
+          clear();
+          _firstNumber = temp;
+          _output = temp;
+        } else {
+          _sign = input;
+        }
+      }
     }
     //
     //
