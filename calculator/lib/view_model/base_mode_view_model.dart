@@ -62,7 +62,7 @@ class BaseModeViewModel extends BaseViewModel {
   // todo
   // @notify
   void onClick(String input) {
-    if (input.endsWith(Sign.dot)) {
+    if (input.endsWith(Sign.dot) && !input.contains(Sign.dot)) {
       _firstNumber += input;
       _output = _firstNumber;
       return;
