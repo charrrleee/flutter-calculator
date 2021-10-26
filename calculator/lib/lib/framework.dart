@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // todo move to custom library
-abstract class BaseStatelessWidget extends StatelessWidget {}
+abstract class BaseStatelessWidget extends StatelessWidget {
+  const BaseStatelessWidget({Key? key}) : super(key: key);
+}
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {}
 
@@ -25,4 +27,8 @@ abstract class BaseMVVMState<T extends StatefulWidget, VM extends BaseViewModel>
   Widget buildChild(ctx, VM vm);
 }
 
-abstract class BaseViewModel extends ChangeNotifier {}
+abstract class BaseViewModel extends ChangeNotifier {
+  void onClick(String input) {
+    notifyListeners();
+  }
+}
