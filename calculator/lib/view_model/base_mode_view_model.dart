@@ -1,6 +1,5 @@
 import 'package:calculator/asset/constant/button.dart';
 import 'package:calculator/lib/framework.dart';
-import 'package:calculator/utils/annotation.dart';
 import 'package:calculator/utils/ext.dart';
 
 class BaseModeViewModel extends BaseViewModel {
@@ -59,56 +58,64 @@ class BaseModeViewModel extends BaseViewModel {
     }
   }
 
-  // todo
-  // @notify
+  @override
   void onClick(String input) {
-    if (input.endsWith(Sign.dot) && !input.contains(Sign.dot)) {
-      _firstNumber += input;
-      _output = _firstNumber;
-      return;
+    _output = "4";
+    if (_firstNumber.isEmpty && _sign.isEmpty) {
+      _output = "3";
     }
-    if (Number.list.contains(input)) {
-      _output = input;
-      if (_firstNumber.isEmpty) {
-        _firstNumber = input;
-      } else {
-        if (_sign.isEmpty) {
-          _firstNumber = input;
-        } else {
-          _secondNumber = input;
-        }
-      }
-    } else if (input == Sign.clear) {
-      clear();
-    } else if (input == Sign.dot) {
-      if (_output.contains(Sign.dot)) return;
-      _output += Sign.dot;
-    } else if (input == Sign.percent) {
-      _output = (double.parse(_output) / 100).toString();
-    } else if (input == Sign.posNeg) {
-      _output = _output.contains("-") ? _output.substring(1) : "-$output";
-      if (_secondNumber.isNotEmpty) {
-        _secondNumber = _output;
-      } else {
-        _firstNumber = _output;
-      }
-    } else {
-      if (_sign.isNotEmpty) {
-        if ([Sign.division, Sign.multiplication, Sign.plus, Sign.minus]
-            .contains(input)) {
-          calculation();
-        } else if (Sign.equals == input) {
-          if (_sign.isEmpty) return;
-          calculation();
-        }
-        String temp = _output;
-        clear();
-        _firstNumber = temp;
-        _output = temp;
-      } else {
-        _sign = input;
-      }
-    }
-    notifyListeners();
+    //
+    //
+    //
+    // if (input.endsWith(Sign.dot) && !input.contains(Sign.dot)) {
+    //   _firstNumber += input;
+    //   _output = _firstNumber;
+    //   return;
+    // }
+    // if (Number.list.contains(input)) {
+    //   _output = input;
+    //   if (_firstNumber.isEmpty) {
+    //     _firstNumber = input;
+    //   } else {
+    //     if (_sign.isEmpty) {
+    //       _firstNumber = input;
+    //     } else {
+    //       _secondNumber = input;
+    //     }
+    //   }
+    // } else if (input == Sign.clear) {
+    //   clear();
+    // } else if (input == Sign.dot) {
+    //   if (_output.contains(Sign.dot)) return;
+    //   _output += Sign.dot;
+    // } else if (input == Sign.percent) {
+    //   _output = (double.parse(_output) / 100).toString();
+    // } else if (input == Sign.posNeg) {
+    //   _output = _output.contains("-") ? _output.substring(1) : "-$output";
+    //   if (_secondNumber.isNotEmpty) {
+    //     _secondNumber = _output;
+    //   } else {
+    //     _firstNumber = _output;
+    //   }
+    // } else {
+    //   if (_sign.isNotEmpty) {
+    //     if ([Sign.division, Sign.multiplication, Sign.plus, Sign.minus]
+    //         .contains(input)) {
+    //       calculation();
+    //     } else if (Sign.equals == input) {
+    //       if (_sign.isEmpty) return;
+    //       calculation();
+    //     }
+    //     String temp = _output;
+    //     clear();
+    //     _firstNumber = temp;
+    //     _output = temp;
+    //   } else {
+    //     _sign = input;
+    //   }
+    // }
+    // notifyListeners();
+
+    super.onClick(input);
   }
 }
