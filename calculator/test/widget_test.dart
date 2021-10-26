@@ -33,9 +33,13 @@ void main() {
       find.widgetWithText(CustomElevatedButton, "%"),
     ];
 
-    clickableList.map((e) async {
-      await tester.tap(e);
-    });
-    await tester.pump();
+    var num = 10;
+    for (var i = num; i >= 1; i--) {
+      clickableList.shuffle();
+      clickableList.map((e) async {
+        await tester.tap(e);
+      });
+      await tester.pump();
+    }
   });
 }
