@@ -27,8 +27,4 @@ abstract class BaseMVVMState<T extends StatefulWidget, VM extends BaseViewModel>
   Widget buildChild(ctx, VM vm);
 }
 
-abstract class BaseViewModel extends ChangeNotifier {
-  void onClick(String input) {
-    notifyListeners();
-  }
-}
+abstract class BaseViewModel extends ChangeNotifier {}

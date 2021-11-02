@@ -1,12 +1,11 @@
 import 'package:calculator/asset/constant/button.dart';
 import 'package:calculator/lib/framework.dart';
+import 'package:calculator/model/calculation_state.dart';
 import 'package:calculator/utils/ext.dart';
 
 class BaseModeViewModel extends BaseViewModel {
   String _output = "0";
-  String _firstNumber = "0";
-  String _secondNumber = "0";
-  String _sign = "";
+  List<String> equation = [];
 
   String get output => _output;
 
@@ -31,128 +30,43 @@ class BaseModeViewModel extends BaseViewModel {
   ];
 
   void clear() {
-    _firstNumber = "0";
-    _secondNumber = "0";
-    _sign = "";
+    equation = [];
     _output = "0";
+    notifyListeners();
   }
 
-  void calculation() {
-    switch (_sign) {
-      case Sign.plus:
-        _output = (_firstNumber.parseDouble() + _secondNumber.parseDouble())
-            .toString();
-        break;
-      case Sign.minus:
-        _output = (_firstNumber.parseDouble() - _secondNumber.parseDouble())
-            .toString();
-        break;
-      case Sign.multiplication:
-        _output = (_firstNumber.parseDouble() * _secondNumber.parseDouble())
-            .toString();
-        break;
-      case Sign.division:
-        _output = (_firstNumber.parseDouble() / _secondNumber.parseDouble())
-            .toString();
-        break;
-    }
+  String add() {
+    return "";
   }
 
-  @override
+  String subtract() {
+    return "";
+  }
+
+  String multiply() {
+    return "";
+  }
+
+  String divide() {
+    return "";
+  }
+
+  String dot() {
+    return "";
+  }
+
+  String setPercentage(String input) {
+    return (input.parseDouble() / 100).toString();
+  }
+
   void onClick(String input) {
-    if (input == Sign.dot && _output.contains(Sign.dot)) return;
-
-    if (Number.list.contains(input)) {
-      if (_firstNumber.isEmpty && _sign.isEmpty) {
-        _output += input;
-      } else if (_firstNumber.isNotEmpty && _sign.isNotEmpty) {
-        _output += input;
-      }
+    if (input == Sign.clear) clear();
+    if (input == Sign.dot && equation.isEmpty) {
     }
-    if (Sign.list.contains(input)) {
-      if (input == Sign.clear) {
-        clear();
-      } else if (input == Sign.dot) {
-        _output += Sign.dot;
-      } else if (input == Sign.percent) {
-        _output = (double.parse(_output) / 100).toString();
-      } else if (input == Sign.posNeg) {
-        _output = _output.contains("-") ? _output.substring(1) : "-$output";
-        if (_secondNumber.isNotEmpty) {
-          _secondNumber = _output;
-        } else {
-          _firstNumber = _output;
-        }
-      } else {
-        if (_sign.isNotEmpty) {
-          if ([Sign.division, Sign.multiplication, Sign.plus, Sign.minus]
-              .contains(input)) {
-            calculation();
-          } else if (Sign.equals == input) {
-            if (_sign.isEmpty) return;
-            calculation();
-          }
-          String temp = _output;
-          clear();
-          _firstNumber = temp;
-          _output = temp;
-        } else {
-          _sign = input;
-        }
-      }
-    }
-    //
-    //
-    //
-    // if (input.endsWith(Sign.dot) && !input.contains(Sign.dot)) {
-    //   _firstNumber += input;
-    //   _output = _firstNumber;
-    //   return;
-    // }
-    // if (Number.list.contains(input)) {
-    //   _output = input;
-    //   if (_firstNumber.isEmpty) {
-    //     _firstNumber = input;
-    //   } else {
-    //     if (_sign.isEmpty) {
-    //       _firstNumber = input;
-    //     } else {
-    //       _secondNumber = input;
-    //     }
-    //   }
-    // } else if (input == Sign.clear) {
-    //   clear();
-    // } else if (input == Sign.dot) {
-    //   if (_output.contains(Sign.dot)) return;
-    //   _output += Sign.dot;
-    // } else if (input == Sign.percent) {
-    //   _output = (double.parse(_output) / 100).toString();
-    // } else if (input == Sign.posNeg) {
-    //   _output = _output.contains("-") ? _output.substring(1) : "-$output";
-    //   if (_secondNumber.isNotEmpty) {
-    //     _secondNumber = _output;
-    //   } else {
-    //     _firstNumber = _output;
-    //   }
-    // } else {
-    //   if (_sign.isNotEmpty) {
-    //     if ([Sign.division, Sign.multiplication, Sign.plus, Sign.minus]
-    //         .contains(input)) {
-    //       calculation();
-    //     } else if (Sign.equals == input) {
-    //       if (_sign.isEmpty) return;
-    //       calculation();
-    //     }
-    //     String temp = _output;
-    //     clear();
-    //     _firstNumber = temp;
-    //     _output = temp;
-    //   } else {
-    //     _sign = input;
-    //   }
-    // }
-    // notifyListeners();
+    notifyListeners();
+  }
 
-    super.onClick(input);
+  void manageState() {
+
   }
 }
