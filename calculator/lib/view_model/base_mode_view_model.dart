@@ -1,11 +1,12 @@
 import 'package:calculator/asset/constant/button.dart';
 import 'package:calculator/lib/framework.dart';
-import 'package:calculator/model/calculation_state.dart';
 import 'package:calculator/utils/ext.dart';
 
 class BaseModeViewModel extends BaseViewModel {
   String _output = "0";
-  List<String> equation = [];
+  String _memory = '0';
+  String _sign = "";
+  String _input = "0";
 
   String get output => _output;
 
@@ -30,43 +31,90 @@ class BaseModeViewModel extends BaseViewModel {
   ];
 
   void clear() {
-    equation = [];
+    _memory = '0';
     _output = "0";
+    _sign = "";
     notifyListeners();
   }
 
-  String add() {
-    return "";
+  void add() {
+    _input = (_memory.parseDouble() + _input.parseDouble()).toString();
+    updateOutput();
   }
 
-  String subtract() {
-    return "";
+  void subtract() {
+    _input = (_memory.parseDouble() - _input.parseDouble()).toString();
+    updateOutput();
   }
 
-  String multiply() {
-    return "";
+  void multiply() {
+    _input = (_memory.parseDouble() * _input.parseDouble()).toString();
+    updateOutput();
   }
 
-  String divide() {
-    return "";
+  void divide() {
+    _input = (_memory.parseDouble() / _input.parseDouble()).toString();
+    updateOutput();
   }
 
-  String dot() {
-    return "";
+  void dot() {
+    updateOutput();
   }
 
-  String setPercentage(String input) {
-    return (input.parseDouble() / 100).toString();
+  void toPercentage() {
+    _input = (_input.parseDouble() / 100).toString();
+  }
+
+  void reverse() {
+    print(_input != '0');
+    if (_input != '0') _input = (1 / _input.parseDouble()).toString();
+  }
+
+  void updateOutput() {
+    _output = _input;
+    notifyListeners();
+  }
+
+  void saveToMemory() {
+    _memory = _input;
+    _input = '0';
   }
 
   void onClick(String input) {
+    print('$_memory $_sign $_input $_output');
+    if (input.contains(Sign.dot) && input == Sign.dot) return;
     if (input == Sign.clear) clear();
-    if (input == Sign.dot && equation.isEmpty) {
+    if (input == Sign.dot && _input.endsWith(Sign.dot)) {
+      _input = _input + "0";
+      toPercentage();
+    }
+    if (input == Sign.posNeg) {
+      reverse();
+    }
+    if (Number.list.contains(input)) {
+      _input = _input + input;
+    }
+    if (Sign.actionSignList.contains(input)) {
+      saveToMemory();
+      if (input != Sign.equals) {
+        _sign = input;
+      }
+      if (_sign.isNotEmpty) {
+        if (input == Sign.plus) {
+          add();
+        } else if (input == Sign.minus) {
+          subtract();
+        } else if (input == Sign.multiplication) {
+          multiply();
+        } else if (input == Sign.division) {
+          divide();
+        } else {
+          // do calculation
+        }
+      }
     }
     notifyListeners();
   }
 
-  void manageState() {
-
-  }
+  void manageState() {}
 }

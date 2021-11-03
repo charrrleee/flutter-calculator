@@ -52,4 +52,12 @@ class Sign {
     percent,
     equals
   ];
+
+  static const List<String> actionSignList = [
+    equals,
+    plus,
+    minus,
+    multiplication,
+    division,
+  ];
 }
