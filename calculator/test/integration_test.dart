@@ -8,31 +8,33 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
-    testWidgets('1 + 1 = 2', (WidgetTester tester) async {
+    testWidgets('11 + 12 = 23', (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
 
-      Finder output = find.widgetWithText(Text, '0');
-      var textFind = find.text("0").last;
-      print('${textFind} haha');
-      // expect(output, findsOneWidget);
+      await tester.pumpAndSettle();
+      Finder output = find.byKey(const Key("output-text-widget"));
+      expect(output, findsOneWidget);
 
       Finder one = find.widgetWithText(CustomElevatedButton, "1");
-      Finder two = find.widgetWithText(CustomElevatedButton, "2");
-      Finder three = find.widgetWithText(CustomElevatedButton, "3");
       Finder plus = find.widgetWithText(CustomElevatedButton, "+");
+      Finder two = find.widgetWithText(CustomElevatedButton, "2");
       Finder equal = find.widgetWithText(CustomElevatedButton, "=");
 
       await tester.tap(one);
+      await tester.tap(one);
       await tester.tap(plus);
       await tester.tap(one);
+      await tester.tap(two);
       await tester.tap(equal);
 
-      Text aa = tester.firstWidget(textFind);
-      print('${aa.data} haha222');
-      expect(find.widgetWithText(Text, "2"), findsOneWidget);
+      expect(one, findsOneWidget);
+      expect(plus, findsOneWidget);
+      expect(two, findsOneWidget);
+      expect(equal, findsOneWidget);
 
-      await tester.pumpAndSettle();
+      Finder result = find.text("23");
+      print(output.description);
+      expect(result, findsOneWidget);
     });
   });
 }

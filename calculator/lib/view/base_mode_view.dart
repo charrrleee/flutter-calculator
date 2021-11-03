@@ -9,7 +9,10 @@ class BaseModeState extends BaseMVVMState<BaseModeView, BaseModeViewModel> {
     return SafeArea(
         child: Column(
       children: [
-        Text(vm.output),
+        Text(
+          vm.output,
+          key: const Key("output-text-widget"),
+        ),
         NumberPad(
           vm: vm,
         ),

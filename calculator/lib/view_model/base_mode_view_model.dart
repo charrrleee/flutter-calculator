@@ -4,9 +4,9 @@ import 'package:calculator/utils/ext.dart';
 
 class BaseModeViewModel extends BaseViewModel {
   String _output = "0";
-  String _memory = '0';
+  String _memory = '';
   String _sign = "";
-  String _input = "0";
+  String _input = "";
 
   String get output => _output;
 
@@ -31,9 +31,10 @@ class BaseModeViewModel extends BaseViewModel {
   ];
 
   void clear() {
-    _memory = '0';
+    _memory = '';
     _output = "0";
     _sign = "";
+    _input = "";
     notifyListeners();
   }
 
@@ -66,8 +67,7 @@ class BaseModeViewModel extends BaseViewModel {
   }
 
   void reverse() {
-    print(_input != '0');
-    if (_input != '0') _input = (1 / _input.parseDouble()).toString();
+    if (_input.isNotEmpty) _input = (1 / _input.parseDouble()).toString();
   }
 
   void updateOutput() {
@@ -77,11 +77,28 @@ class BaseModeViewModel extends BaseViewModel {
 
   void saveToMemory() {
     _memory = _input;
-    _input = '0';
+    _input = '';
+    notifyListeners();
+  }
+
+  void calculate(String sign) {
+    switch (sign) {
+      case Sign.plus:
+        add();
+        break;
+      case Sign.minus:
+        subtract();
+        break;
+      case Sign.multiplication:
+        multiply();
+        break;
+      case Sign.division:
+        divide();
+        break;
+    }
   }
 
   void onClick(String input) {
-    print('$_memory $_sign $_input $_output');
     if (input.contains(Sign.dot) && input == Sign.dot) return;
     if (input == Sign.clear) clear();
     if (input == Sign.dot && _input.endsWith(Sign.dot)) {
@@ -93,28 +110,20 @@ class BaseModeViewModel extends BaseViewModel {
     }
     if (Number.list.contains(input)) {
       _input = _input + input;
-    }
-    if (Sign.actionSignList.contains(input)) {
-      saveToMemory();
+      updateOutput();
+    } else if (Sign.actionSignList.contains(input)) {
+      if (_sign.isNotEmpty) {
+        calculate(_sign);
+      } else {
+        saveToMemory();
+      }
       if (input != Sign.equals) {
         _sign = input;
-      }
-      if (_sign.isNotEmpty) {
-        if (input == Sign.plus) {
-          add();
-        } else if (input == Sign.minus) {
-          subtract();
-        } else if (input == Sign.multiplication) {
-          multiply();
-        } else if (input == Sign.division) {
-          divide();
-        } else {
-          // do calculation
-        }
+        notifyListeners();
       }
     }
+    print('memory $_memory sign $_sign input $_input output $_output');
+
     notifyListeners();
   }
-
-  void manageState() {}
 }
