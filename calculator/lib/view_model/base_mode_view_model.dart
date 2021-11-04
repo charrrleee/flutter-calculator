@@ -130,8 +130,7 @@ class BaseModeViewModel extends BaseViewModel {
       if (input == Sign.percent && _input == '0' ||
           _input.isEmpty && _memory.isEmpty) return;
       if ([Sign.percent, Sign.posNeg, Sign.dot].contains(input)) {
-        if(_memory.isNotEmpty) {
-
+        if(_memory.isNotEmpty && _input.isEmpty) {
           _input = _memory;
           updateOutput();
           notifyListeners();
@@ -155,9 +154,9 @@ class BaseModeViewModel extends BaseViewModel {
       if (_memory.isNotEmpty && _sign.isNotEmpty && _input.isNotEmpty) {
         calculate(_sign);
         saveToMemory();
-      } else {
+      } else if(_input.isNotEmpty){
         saveToMemory();
-      }
+      } 
 
       if (input != Sign.equals) {
         _sign = input;
