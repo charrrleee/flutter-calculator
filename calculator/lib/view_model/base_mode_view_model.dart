@@ -77,7 +77,7 @@ class BaseModeViewModel extends BaseViewModel {
   }
 
   void updateOutput() {
-    _output = _input;
+    _output = _input.parseDouble().toStringAsFixed(2);
     notifyListeners();
   }
 
@@ -105,15 +105,19 @@ class BaseModeViewModel extends BaseViewModel {
   }
 
   void onClick(String input) {
-    if (input.contains(Sign.dot) && input == Sign.dot) return;
+    if (_input.contains(Sign.dot) && input == Sign.dot) return;
     if (input == Sign.clear) {
       clear();
       return;
     }
     bool isNumber = Number.list.contains(input);
 
-    if (isNumber) {
+    if (isNumber && _input == "0") {
       _input = input;
+      updateOutput();
+      notifyListeners();
+    } else if (isNumber) {
+      _input += input;
       updateOutput();
       notifyListeners();
     } else {
@@ -140,6 +144,9 @@ class BaseModeViewModel extends BaseViewModel {
       }
       _sign = input;
       notifyListeners();
+
     }
+    print('memory $_memory sign $_sign input $_input output $_output');
+
   }
 }
