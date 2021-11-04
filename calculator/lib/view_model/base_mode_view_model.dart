@@ -1,6 +1,5 @@
 import 'package:calculator/asset/constant/button.dart';
 import 'package:calculator/lib/framework.dart';
-import 'package:calculator/model/calculate_state.dart';
 import 'package:calculator/utils/ext.dart';
 
 class BaseModeViewModel extends BaseViewModel {
@@ -8,7 +7,6 @@ class BaseModeViewModel extends BaseViewModel {
   String _memory = '';
   String _sign = "";
   String _input = "";
-  int _state = CalculateState.init;
 
   String get output => _output;
 
@@ -37,7 +35,6 @@ class BaseModeViewModel extends BaseViewModel {
     _output = "0";
     _sign = "";
     _input = "";
-    _state = CalculateState.init;
     notifyListeners();
   }
 
@@ -86,12 +83,7 @@ class BaseModeViewModel extends BaseViewModel {
 
   void saveToMemory() {
     _memory = _input;
-    _input = '';
-    notifyListeners();
-  }
-
-  void switchState(int state) {
-    _state = state;
+    _input = "";
     notifyListeners();
   }
 
@@ -113,71 +105,41 @@ class BaseModeViewModel extends BaseViewModel {
   }
 
   void onClick(String input) {
-    print('$_memory $_sign $_input $_output');
     if (input.contains(Sign.dot) && input == Sign.dot) return;
     if (input == Sign.clear) {
       clear();
       return;
     }
-
     bool isNumber = Number.list.contains(input);
-    if (_state == CalculateState.init) {
-      if (isNumber) {
-        _input = input;
-        updateOutput();
-        notifyListeners();
-      } else {
-        if (input == Sign.percent && (_input.isEmpty || _input == '0')) return;
-        if (input == Sign.percent) {
-          toPercentage();
-          return;
-        }
-        if (input == Sign.posNeg) {
-          reverse();
-          return;
-        }
-        if (input == Sign.dot) {
-          _input += Sign.dot;
-          updateOutput();
-          notifyListeners();
-          return;
-        }
-        _sign = input;
-        saveToMemory();
-        notifyListeners();
-        switchState(CalculateState.enter);
+
+    if (isNumber) {
+      _input = input;
+      updateOutput();
+      notifyListeners();
+    } else {
+      if (input == Sign.percent && (_input.isEmpty || _input == '0')) return;
+      if (input == Sign.percent) {
+        toPercentage();
+        return;
       }
-    } else if (_state == CalculateState.enter) {
-      if (isNumber) {
-        _input = input;
+      if (input == Sign.posNeg) {
+        reverse();
+        return;
+      }
+      if (input == Sign.dot) {
+        _input += Sign.dot;
         updateOutput();
         notifyListeners();
-      } else {
-        if (input == Sign.percent && (_input.isEmpty || _input == '0')) return;
-        if (input == Sign.percent) {
-          toPercentage();
-          return;
-        }
-        if (input == Sign.posNeg) {
-          reverse();
-          return;
-        }
-        if (input == Sign.dot) {
-          _input += Sign.dot;
-          updateOutput();
-          notifyListeners();
-          return;
-        }
+        return;
+      }
+      if (input == Sign.equals) {
         calculate(_sign);
         saveToMemory();
-        notifyListeners();
-        switchState(CalculateState.enter);
+      } else {
+        saveToMemory();
       }
-    } else {
-      if (isNumber) {
-      } else {}
+      _sign = input;
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 }
