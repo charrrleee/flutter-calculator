@@ -70,14 +70,20 @@ class BaseModeViewModel extends BaseViewModel {
 
   void reverse() {
     if (_input.isNotEmpty) {
-      _input = _input.contains("-") ? _input.substring(1) : "-${_input}";
+      _input = _input.contains("-") ? _input.substring(1) : "-$_input";
     }
     updateOutput();
     notifyListeners();
   }
 
   void updateOutput() {
-    _output = _input.parseDouble().toStringAsFixed(2);
+    int dotIdx = _input.indexOf(Sign.dot);
+    int len = _input.length;
+    if (dotIdx != -1 && len - dotIdx > 2) {
+      _output = _input.parseDouble().toStringAsFixed(2);
+    } else {
+      _output = _input;
+    }
     notifyListeners();
   }
 
@@ -136,7 +142,7 @@ class BaseModeViewModel extends BaseViewModel {
         notifyListeners();
         return;
       }
-      if (input == Sign.equals) {
+      if (_memory.isNotEmpty && _sign.isNotEmpty && _input.isNotEmpty) {
         calculate(_sign);
         saveToMemory();
       } else {
@@ -144,9 +150,7 @@ class BaseModeViewModel extends BaseViewModel {
       }
       _sign = input;
       notifyListeners();
-
     }
     print('memory $_memory sign $_sign input $_input output $_output');
-
   }
 }
