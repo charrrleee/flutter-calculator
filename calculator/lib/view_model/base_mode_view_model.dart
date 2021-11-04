@@ -127,20 +127,30 @@ class BaseModeViewModel extends BaseViewModel {
       updateOutput();
       notifyListeners();
     } else {
-      if (input == Sign.percent && (_input.isEmpty || _input == '0')) return;
-      if (input == Sign.percent) {
-        toPercentage();
-        return;
-      }
-      if (input == Sign.posNeg) {
-        reverse();
-        return;
-      }
-      if (input == Sign.dot) {
-        _input += Sign.dot;
-        updateOutput();
-        notifyListeners();
-        return;
+      if (input == Sign.percent && _input == '0' ||
+          _input.isEmpty && _memory.isEmpty) return;
+      if ([Sign.percent, Sign.posNeg, Sign.dot].contains(input)) {
+        if(_memory.isNotEmpty) {
+
+          _input = _memory;
+          updateOutput();
+          notifyListeners();
+        }
+
+        if (input == Sign.percent) {
+          toPercentage();
+          return;
+        }
+        if (input == Sign.posNeg) {
+          reverse();
+          return;
+        }
+        if (input == Sign.dot) {
+          _input += Sign.dot;
+          updateOutput();
+          notifyListeners();
+          return;
+        }
       }
       if (_memory.isNotEmpty && _sign.isNotEmpty && _input.isNotEmpty) {
         calculate(_sign);
@@ -148,7 +158,10 @@ class BaseModeViewModel extends BaseViewModel {
       } else {
         saveToMemory();
       }
-      _sign = input;
+
+      if (input != Sign.equals) {
+        _sign = input;
+      }
       notifyListeners();
     }
     print('memory $_memory sign $_sign input $_input output $_output');
